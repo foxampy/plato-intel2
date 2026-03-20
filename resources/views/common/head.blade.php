@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="format-detection" content="telephone=no" />
     <!--colors-->
-    <meta name="theme-color" content="#fff">
+    <meta name="theme-color" content="#1a1d26">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(isset($seo))
         <title>{{$seo->title}}</title>
@@ -16,10 +16,13 @@
 	<link rel="stylesheet" href="{{asset('css/sweetalert2.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/common.css')}}?v=1.1"/>
     <link rel="stylesheet" href="{{asset('css/ki.css')}}?v=1.01"/>
+    <link rel="stylesheet" href="{{asset('css/neomorph.css')}}?v=1.0"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{asset('js/vendor/detectmobilebrowser.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/vendor/jquery.fancybox.min.js')}}"></script>

@@ -99,6 +99,8 @@
     </div>
 </footer>
 
+<!-- Telegram кнопка -->
+@include('parts.telegram-button')
 
 <!--FOOTER END-->
 <section class="s-fixed-elements">

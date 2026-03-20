@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\FormController;
 use App\Http\Controllers\Ajax\OrderController as AjaxOrderController;
 use App\Http\Controllers\Ajax\PostTasksController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\HomeNeomorphController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 //Route::get('news/rele-maksimalnogo-toka-osnovnye-vidy-i-princip-raboty', fn() => redirect('/', 301));
 //Route::get('news/avtomaticheskie-vyklyuchateli-naznachenie-vidy-princip-raboty', fn() => redirect('/', 301));
 Route::get('news/novinka-modulnye-kontaktory-finder', fn() => redirect('/', 301));
+
+// Тестовая страница с новым дизайном (неоморфизм)
+Route::get('/test-neo', [HomeNeomorphController::class, 'index'])->name('test-neo');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
