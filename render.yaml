@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: plato-intel
+    env: docker
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: starter
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      pnpm install --production
+      pnpm run build
+      php artisan migrate --force
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: PLATO-INTEL
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: errorlog
