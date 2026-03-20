@@ -29,6 +29,12 @@ WORKDIR /var/www/html
 RUN composer install --optimize-autoloader --ignore-platform-reqs && \
     composer clear-cache
 
+# Настройка логов
+RUN mkdir -p /var/www/html/storage/logs && \
+    chmod -R 777 /var/www/html/storage && \
+    touch /var/www/html/storage/logs/laravel.log && \
+    chmod 666 /var/www/html/storage/logs/laravel.log
+
 # Установка Node.js зависимостей
 RUN npm install -g pnpm
 RUN pnpm install --production

@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('news/novinka-modulnye-kontaktory-finder', fn() => redirect('/', 301));
 
 // Тестовая страница с новым дизайном (неоморфизм)
-Route::get('/test-neo', [HomeNeomorphController::class, 'index'])->name('test-neo');
+Route::get('/test-neo', function() {
+    Log::info('Test neo page visited');
+    return view('test-neo');
+})->name('test-neo');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
