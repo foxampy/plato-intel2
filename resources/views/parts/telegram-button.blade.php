@@ -1,19 +1,20 @@
-<!-- Telegram кнопка и виджет -->
-<button class="telegram-fab" onclick="toggleTelegramWidget()" title="Связаться с менеджером">
+<!-- Telegram FAB Button -->
+<button class="telegram-fab" aria-label="Связаться с менеджером">
     <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.121.832.941z"/>
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
     </svg>
 </button>
 
-<div class="telegram-widget" id="telegramWidget">
+<!-- Telegram Widget -->
+<div class="telegram-widget">
     <div class="widget-header">
         <div class="widget-title">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="#2AABEE">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.121.832.941z"/>
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
             </svg>
             Связь с менеджером
         </div>
-        <button class="widget-close" onclick="toggleTelegramWidget()">
+        <button class="widget-close" aria-label="Закрыть">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -22,33 +23,10 @@
     </div>
     <div class="widget-body">
         <div class="widget-message">
-            <p>👋 Здравствуйте! Наш менеджер скоро ответит вам в Telegram. Пожалуйста, опишите ваш запрос.</p>
+            <p>👋 Здравствуйте! Наш менеджер скоро ответит вам в Telegram. Пожалуйста, опишите ваш запрос и ожидайте ответа.</p>
         </div>
-        <button class="widget-button" onclick="openTelegram()">
+        <button class="widget-button" onclick="window.open('https://t.me/plato_intel_bot', '_blank')">
             Перейти в Telegram бот
         </button>
     </div>
 </div>
-
-<script>
-function toggleTelegramWidget() {
-    const widget = document.getElementById('telegramWidget');
-    widget.classList.toggle('active');
-}
-
-function openTelegram() {
-    // Ссылка на Telegram бота
-    const telegramBotUrl = 'https://t.me/plato_intel_bot';
-    window.open(telegramBotUrl, '_blank');
-}
-
-// Закрыть виджет при клике вне его
-document.addEventListener('click', function(event) {
-    const widget = document.getElementById('telegramWidget');
-    const fab = document.querySelector('.telegram-fab');
-    
-    if (widget && !widget.contains(event.target) && !fab.contains(event.target)) {
-        widget.classList.remove('active');
-    }
-});
-</script>

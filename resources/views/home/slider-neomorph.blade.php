@@ -2,7 +2,7 @@
     <section class="s-index-slider">
         <div class="owl-carousel owl-index-slider">
         @foreach($slides as $slide)
-            <div class="slide" style="background-image: url('{{zImage::resize($slide->image, $slide::SIZES)}}');">
+            <div class="slide" style="background-image: url('{{asset('storage/'.$slide->image)}}');">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="row row-index-slider align-items-center">
@@ -24,3 +24,25 @@
         </div>
     </section>
 @endif
+
+@push('styles')
+<style>
+    .owl-index-slider .slide {
+        min-height: 600px;
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .owl-index-slider .owl-nav button {
+        background: var(--surface) !important;
+        color: var(--orange-glow) !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: var(--shadow-outer) !important;
+    }
+    
+    .owl-index-slider .owl-nav button:hover {
+        background: var(--surface-highlight) !important;
+        box-shadow: var(--shadow-outer), var(--glow-orange) !important;
+    }
+</style>
+@endpush

@@ -7,7 +7,7 @@
                 <div class="advantage-card">
                     <div class="advantage-icon">
                         @isset(json_decode($advantage->svg)[0])
-                            <img src="{{asset('storage/'.json_decode($advantage->svg)[0]->download_link)}}" alt="{{$advantage->name}}" style="width: 32px; height: 32px;">
+                            <img src="{{asset('storage/'.json_decode($advantage->svg)[0]->download_link)}}" alt="{{$advantage->name}}">
                         @endisset
                     </div>
                     <h3 class="advantage-title">{{$advantage->name}}</h3>

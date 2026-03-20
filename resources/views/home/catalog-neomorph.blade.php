@@ -8,7 +8,7 @@
                     @if($category->image)
                         <img src="{{asset('storage/'.$category->image)}}" alt="{{$category->name}}" class="category-image">
                     @else
-                        <div class="category-image" style="background: var(--surface-highlight); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                        <div class="category-image" style="display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
                             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                                 <rect x="3" y="3" width="18" height="18" rx="2"></rect>
                                 <circle cx="8.5" cy="8.5" r="1.5"></circle>
@@ -28,6 +28,9 @@
                     </div>
                 </div>
             @endforeach
+            </div>
+            <div style="text-align: center; margin-top: 48px;">
+                <a href="{{route('catalog')}}" class="button">Весь каталог</a>
             </div>
         </div>
     </section>
