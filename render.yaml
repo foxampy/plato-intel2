@@ -5,6 +5,10 @@ services:
     dockerfilePath: ./Dockerfile
     region: frankfurt
     plan: starter
+    dockerCommand: |
+      sed -i 's/8.2/8.3/g' Dockerfile
+      docker build -t plato-intel .
+      docker run -d -p 10000:80 plato-intel
     buildCommand: |
       composer install --no-dev --optimize-autoloader
       pnpm install --production
