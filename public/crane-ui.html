@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLATO-INTEL | Промышленное электрооборудование</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #1a1d26;
+            --bg-secondary: #232731;
+            --surface: #2d313c;
+            --surface-highlight: #3a3f4d;
+            --orange-glow: #ff9a4d;
+            --orange-core: #ff6b35;
+            --text-primary: #e8e4dc;
+            --text-secondary: #9a9590;
+            --text-muted: #6b6560;
+            --shadow-dark: rgba(0, 0, 0, 0.4);
+            --shadow-light: rgba(255, 255, 255, 0.05);
+            --glow-orange: 0 0 20px rgba(255, 154, 77, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Crane Header (Boom) */
+        .crane-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 40px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-highlight) 100%);
+            box-shadow: 
+                6px 6px 12px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 40px;
+        }
+
+        .crane-header::after {
+            content: '';
+            position: absolute;
+            right: -40px;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background: var(--surface);
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 0.1em;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--orange-glow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow-orange);
+        }
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            background: var(--surface);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                4px 4px 8px var(--shadow-dark),
+                -2px -2px 4px var(--shadow-light);
+        }
+
+        .nav-link:hover {
+            color: var(--orange-glow);
+            box-shadow: 
+                4px 4px 8px var(--shadow-dark),
+                -2px -2px 4px var(--shadow-light),
+                var(--glow-orange);
+        }
+
+        .nav-link.active {
+            color: var(--orange-glow);
+            background: var(--surface-highlight);
+        }
+
+        .cta-button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--orange-core) 0%, var(--orange-glow) 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 6px rgba(255, 107, 53, 0.3),
+                var(--glow-orange);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                6px 6px 16px var(--shadow-dark),
+                -3px -3px 8px rgba(255, 107, 53, 0.4),
+                var(--glow-orange);
+        }
+
+        /* Crane Tower (Right Side) */
+        .crane-tower {
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background: var(--surface);
+            box-shadow: 
+                inset 4px 4px 8px var(--shadow-dark),
+                inset -2px -2px 4px var(--shadow-light);
+            z-index: 1001;
+        }
+
+        .crane-tower::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                var(--surface-highlight) 0%, 
+                var(--surface) 50%, 
+                var(--surface-highlight) 100%);
+            border-radius: 4px;
+        }
+
+        /* Crane Cabin (Scroll Handle) */
+        .crane-cabin {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--surface-highlight) 0%, var(--surface) 100%);
+            border-radius: 12px;
+            cursor: grab;
+            z-index: 1002;
+            box-shadow: 
+                6px 6px 12px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+            transition: box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .crane-cabin::before {
+            content: '';
+            width: 24px;
+            height: 40px;
+            background: var(--orange-glow);
+            border-radius: 6px;
+            box-shadow: var(--glow-orange);
+            opacity: 0.8;
+        }
+
+        .crane-cabin:hover {
+            box-shadow: 
+                8px 8px 16px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light),
+                var(--glow-orange);
+        }
+
+        .crane-cabin:hover::before {
+            opacity: 1;
+        }
+
+        .crane-cabin.dragging {
+            cursor: grabbing;
+            box-shadow: 
+                inset 4px 4px 8px var(--shadow-dark),
+                inset -2px -2px 4px var(--shadow-light);
+        }
+
+        .crane-cabin.dragging::before {
+            box-shadow: 
+                inset 2px 2px 4px rgba(0,0,0,0.3),
+                var(--glow-orange);
+        }
+
+        /* Hook (Optional - Hero Only) */
+        .crane-hook {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .crane-hook.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+        }
+
+        .hook-cable {
+            width: 2px;
+            height: 40px;
+            background: var(--text-muted);
+        }
+
+        .hook {
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--orange-glow);
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            box-shadow: var(--glow-orange);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 80px 80px 80px;
+            background: radial-gradient(ellipse at center, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 72px;
+            letter-spacing: 0.15em;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--orange-glow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            padding: 16px 48px;
+            font-size: 18px;
+            background: linear-gradient(135deg, var(--orange-core) 0%, var(--orange-glow) 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 
+                8px 8px 24px var(--shadow-dark),
+                -4px -4px 12px rgba(255, 107, 53, 0.3),
+                var(--glow-orange);
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 
+                12px 12px 32px var(--shadow-dark),
+                -6px -6px 16px rgba(255, 107, 53, 0.4),
+                var(--glow-orange);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 40px;
+            background: var(--bg-secondary);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 40px 32px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 
+                8px 8px 24px var(--shadow-dark),
+                -4px -4px 12px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                12px 12px 32px var(--shadow-dark),
+                -6px -6px 16px var(--shadow-light),
+                var(--glow-orange);
+        }
+
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--orange-glow);
+            margin-bottom: 16px;
+            text-shadow: var(--glow-orange);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 100px 80px;
+            background: var(--bg-primary);
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            letter-spacing: 0.1em;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+        }
+
+        .section-title span {
+            color: var(--orange-glow);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .content-card {
+            background: var(--surface);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 
+                6px 6px 16px var(--shadow-dark),
+                -4px -4px 12px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                8px 8px 24px var(--shadow-dark),
+                -4px -4px 16px var(--shadow-light),
+                var(--glow-orange);
+        }
+
+        .content-card h3 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .content-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 80px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .crane-header {
+                right: 0;
+                padding: 0 20px;
+            }
+
+            .crane-tower {
+                display: none;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .content-section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .stats {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Crane Header (Boom) -->
+    <header class="crane-header">
+        <a href="/" class="logo">
+            <div class="logo-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.5L19 8l-7 3.5L5 8l7-3.5zM4 9.5l7 3.5v7l-7-3.5v-7zm16 7l-7 3.5v-7l7-3.5v7z"/>
+                </svg>
+            </div>
+            PLATO-INTEL
+        </a>
+        
+        <nav class="nav">
+            <button class="nav-link active">Главная</button>
+            <button class="nav-link">Каталог</button>
+            <button class="nav-link">О компании</button>
+            <button class="nav-link">Контакты</button>
+        </nav>
+        
+        <button class="cta-button">Связаться</button>
+    </header>
+
+    <!-- Crane Tower (Right Side) -->
+    <div class="crane-tower">
+        <!-- Crane Cabin (Scroll Handle) -->
+        <div class="crane-cabin" id="cabin">
+            <div class="crane-hook" id="hook">
+                <div class="hook-cable"></div>
+                <div class="hook"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">ПРОМЫШЛЕННОЕ<br>ЭЛЕКТРООБОРУДОВАНИЕ</h1>
+                <p class="hero-subtitle">
+                    Надежные поставки промышленного электрооборудования по всей Беларуси с 2003 года. 
+                    Автоматические выключатели, контакторы, реле и многое другое.
+                </p>
+                <button class="hero-cta">Перейти в каталог</button>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-count="5000">0</div>
+                    <div class="stat-label">Довольных клиентов<br>по всей Беларуси</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-count="10000">0</div>
+                    <div class="stat-label">Товаров в наличии<br>на складе</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-count="20">0</div>
+                    <div class="stat-label">Лет успешной<br>работы на рынке</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-count="100">0</div>
+                    <div class="stat-label">Процент гарантии<br>качества</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catalog Section -->
+        <section class="content-section">
+            <h2 class="section-title">Каталог <span>продукции</span></h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Автоматические выключатели</h3>
+                    <p>Широкий выбор автоматических выключателей для промышленного применения. Надежная защита электросетей.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Контакторы и пускатели</h3>
+                    <p>Коммутационные аппараты для дистанционного запуска, остановки и защиты электродвигателей.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Реле и защита</h3>
+                    <p>Устройства защиты и автоматики для контроля параметров электрических сетей.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Промышленная автоматика</h3>
+                    <p>Компоненты для автоматизации производственных процессов и систем управления.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Датчики и сенсоры</h3>
+                    <p>Прецизионные датчики для контроля положения, температуры, давления и других параметров.</p>
+                </div>
+                <div class="content-card">
+                    <h3>Компоненты для станков</h3>
+                    <p>Запасные части и комплектующие для станков с ЧПУ и промышленного оборудования.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="content-section" style="background: var(--bg-secondary);">
+            <h2 class="section-title">Почему <span>мы</span></h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>🏆 Официальный дилер</h3>
+                    <p>Прямые поставки от производителей без посредников и наценок.</p>
+                </div>
+                <div class="content-card">
+                    <h3>📦 Большой склад</h3>
+                    <p>Более 10 000 позиций в наличии в Минске. Быстрая отгрузка.</p>
+                </div>
+                <div class="content-card">
+                    <h3>🚚 Доставка по РБ</h3>
+                    <p>Оперативная доставка по всей Беларуси транспортными компаниями.</p>
+                </div>
+                <div class="content-card">
+                    <h3>💰 Гибкие цены</h3>
+                    <p>Скидки для постоянных клиентов и оптовых покупателей.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 PLATO-INTEL. Все права защищены.</p>
+            <p style="margin-top: 12px; font-size: 14px;">
+                Промышленное электрооборудование с доставкой по Беларуси
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Crane Cabin Scroll System
+        const cabin = document.getElementById('cabin');
+        const hook = document.getElementById('hook');
+        const tower = document.querySelector('.crane-tower');
+        
+        let isDragging = false;
+        let startY = 0;
+        let startScroll = 0;
+
+        // Calculate cabin position based on scroll
+        function updateCabinPosition() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+            
+            const towerHeight = tower.offsetHeight - cabin.offsetHeight;
+            const cabinY = scrollPercent * towerHeight;
+            
+            cabin.style.top = `${cabinY}px`;
+            
+            // Hide hook on scroll
+            if (scrollTop > 200) {
+                hook.classList.add('hidden');
+            } else {
+                hook.classList.remove('hidden');
+            }
+        }
+
+        // Scroll page based on cabin position
+        function scrollPageFromCabin(cabinY) {
+            const towerHeight = tower.offsetHeight - cabin.offsetHeight;
+            const scrollPercent = towerHeight > 0 ? cabinY / towerHeight : 0;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollTop = scrollPercent * docHeight;
+            
+            window.scrollTo({
+                top: scrollTop,
+                behavior: 'smooth'
+            });
+        }
+
+        // Mouse events for drag
+        cabin.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.clientY;
+            startScroll = window.scrollY;
+            cabin.classList.add('dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const deltaY = e.clientY - startY;
+            const newScroll = startScroll - deltaY;
+            
+            window.scrollTo({
+                top: newScroll,
+                behavior: 'auto'
+            });
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                cabin.classList.remove('dragging');
+            }
+        });
+
+        // Touch events for mobile
+        cabin.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startY = e.touches[0].clientY;
+            startScroll = window.scrollY;
+            cabin.classList.add('dragging');
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            
+            const deltaY = e.touches[0].clientY - startY;
+            const newScroll = startScroll - deltaY;
+            
+            window.scrollTo({
+                top: newScroll,
+                behavior: 'auto'
+            });
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+                cabin.classList.remove('dragging');
+            }
+        });
+
+        // Update cabin on scroll
+        window.addEventListener('scroll', updateCabinPosition, { passive: true });
+
+        // Animate stats on scroll
+        const statNumbers = document.querySelectorAll('.stat-number');
+        let animated = false;
+
+        function animateStats() {
+            if (animated) return;
+            
+            const statsSection = document.querySelector('.stats');
+            const rect = statsSection.getBoundingClientRect();
+            
+            if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                animated = true;
+                
+                statNumbers.forEach(stat => {
+                    const target = parseInt(stat.dataset.count);
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            stat.textContent = target.toLocaleString();
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(current).toLocaleString();
+                        }
+                    }, 16);
+                });
+            }
+        }
+
+        window.addEventListener('scroll', animateStats, { passive: true });
+        animateStats(); // Check on load
+
+        // Initialize
+        updateCabinPosition();
+    </script>
+</body>
+</html>
