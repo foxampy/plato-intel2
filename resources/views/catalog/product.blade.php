@@ -143,6 +143,14 @@
 													{{$cart::TEXTS['label']['removed']}}
 												@endif</button>
 										</div>
+										<div class="class mt-10">
+											<button class="button button--secondary quick-order-btn" data-id="{{$page->id}}" data-url="{{route('order')}}">
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+													<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+												</svg>
+												Заказать сейчас
+											</button>
+										</div>
 									@endif
                                 </div>
                             </div>
@@ -201,6 +209,53 @@
                 </div>
             </div>
         </div>
+    </section>
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Quick Order Button
+    const quickOrderBtn = document.querySelector('.quick-order-btn');
+    if (quickOrderBtn) {
+        quickOrderBtn.addEventListener('click', function() {
+            const productId = this.dataset.id;
+            const orderUrl = this.dataset.url;
+            
+            // Add to cart via AJAX
+            fetch('{{route("cart-add-remove")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{csrf_token()}}'
+                },
+                body: JSON.stringify({
+                    id: productId,
+                    count: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart counter
+                    const cartCounter = document.querySelector('.cart-counter');
+                    if (cartCounter) {
+                        cartCounter.textContent = data.cartCount;
+                    }
+                    // Redirect to order page
+                    window.location.href = orderUrl;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback - just redirect
+                window.location.href = orderUrl;
+            });
+        });
+    }
+});
+</script>
+@endpush
     </section>
     @endif
     @include('parts.advantages')
