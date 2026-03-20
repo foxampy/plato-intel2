@@ -20,11 +20,13 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/neomorph-complete.css')}}">
+    <link rel="stylesheet" href="{{asset('css/crane-ui.css')}}">
     
     @stack('styles')
 </head>
 <body class="neomorph-theme">
-    @include('common.header-neomorph')
+    <!-- Crane UI Overlay -->
+    @include('common.crane-overlay')
     
     <main>
         @yield('content')
