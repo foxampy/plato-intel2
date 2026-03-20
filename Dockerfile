@@ -26,7 +26,8 @@ COPY . /var/www/html
 WORKDIR /var/www/html
 
 # Установка PHP зависимостей
-RUN composer update --no-dev --optimize-autoloader --ignore-platform-reqs
+RUN composer install --optimize-autoloader --ignore-platform-reqs && \
+    composer clear-cache
 
 # Установка Node.js зависимостей
 RUN npm install -g pnpm
